@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Fetch API</h1>
+
+    <button id="getPost">GET</button>
+    <button id="createPost">POST</button>
+    <button id="updatePost">PUT</button>
+    <button id="patchPost">PATCH</button>
+    <button id="deletePost">DELETE</button>
+
+    <h1>Open the console.</h1>
+    <div>
+
+    </div>
+    <script>
+
+
+        const getButton = document.getElementById("getPost");
+        const createButton = document.getElementById("createPost");
+        const updateButton = document.getElementById("updatePost");
+        const patchButton = document.getElementById("patchPost");
+        const deleteButton = document.getElementById("deletePost");
+
+        const apiEndPoint = "https://jsonplaceholder.typicode.com/posts";
+
+        //GET
+        getButton.addEventListener("click", async () => {
+            console.log("GET DATA")
+            const getData = await fetch(apiEndPoint);
+            const posts = await getData.json();
+            console.log(posts)
+        });
+
+        //POST
+        createButton.addEventListener("click", async () => {
+            try {
+                console.log("CREATE POST")
+                const postData = await fetch(apiEndPoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: "My Name",
+                        body: "Neeraj is the boy ",
+                        userId: 1
+                    })
+                });
+                if (!postData) {
+                    throw new Error("Something went wrong");
+                }
+                const response = await postData.json();
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        })
+
+        updateButton.addEventListener("click", async () => {
+            let id = 2;
+            try {
+                console.log("PUT DATA")
+                const putData = await fetch(`${apiEndPoint}/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: "WHO ARE YOU BROTHER",
+                        body: "THIS IS MY AREA",
+                        userId: 1
+                    })
+                });
+                if (putData.ok) {
+                    const response = await putData.json();
+                    console.log(response);
+                } else {
+                    throw new Error("WRONGGGGGGGGGg");
+                }
+
+            }
+            catch (error) {
+                console.log(error);
+            }
+        })
+
+        patchButton.addEventListener("click", async () => {
+            try {
+                console.log("PATCH DATA")
+                let id = 2;
+                const patchData = await fetch(`${apiEndPoint}/${id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: "BIRJU BHAiyA",
+                    })
+                });
+                if (patchData.ok) {
+                    const res = await patchData.json();
+                    console.log(res);
+                } else {
+                    throw new Error("Oops, something wrong here");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        });
+
+        deleteButton.addEventListener("click", async()=>{
+            console.log("DELETE DATA");
+            let id = 2;
+            const deleteData = await fetch(`${apiEndPoint}/${id}`,{
+                method: "DELETE"
+            });
+
+            const res = await deleteData.json();
+            console.log(res);
+
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>
